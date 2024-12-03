@@ -37,28 +37,22 @@ impl Runner for Aoc2024_3 {
     }
 
     fn part1(&mut self) -> Vec<String> {
-        let mut res = 0;
-
-        // for input in &self.inputs {
-        //     res += self.helper(input);
-        // }
-        vec![format!("{}", res)]
+        vec![format!("{}", self.helper(&self.inputs.join("")))]
     }
 
     fn part2(&mut self) -> Vec<String> {
         let mut res = 0;
 
-        for input in &self.inputs {
-            let mut tmp = input.as_str();
+        let input = self.inputs.join("");
+        let mut tmp = input.as_str();
 
-            while !tmp.is_empty() {
-                let end = tmp.find("don't()").unwrap_or(tmp.len());
-                res += self.helper(&tmp[..end]);
-                if let Some(p) = tmp[end..].find("do()") {
-                    tmp = &tmp[end + p..];
-                } else {
-                    break;
-                }
+        while !tmp.is_empty() {
+            let end = tmp.find("don't()").unwrap_or(tmp.len());
+            res += self.helper(&tmp[..end]);
+            if let Some(p) = tmp[end..].find("do()") {
+                tmp = &tmp[end + p..];
+            } else {
+                break;
             }
         }
         vec![format!("{}", res)]

@@ -43,13 +43,13 @@ impl Aoc2023_14 {
                 if self.grid[row][cur_col as usize] == 'O' {
                     let mut pre_col = (cur_col + 1) as usize;
                     while pre_col < self.cols {
-                        if self.grid[row][pre_col as usize] == '.' {
+                        if self.grid[row][pre_col] == '.' {
                             pre_col += 1;
                         } else {
                             break;
                         }
                     }
-                    let new_col = (pre_col - 1) as usize;
+                    let new_col = pre_col - 1;
                     if new_col != cur_col as usize {
                         self.grid[row][new_col] = 'O';
                         self.grid[row][cur_col as usize] = '.';
@@ -97,7 +97,7 @@ impl Aoc2023_14 {
                             break;
                         }
                     }
-                    let new_row = (pre_row - 1) as usize;
+                    let new_row = pre_row - 1;
                     if new_row != cur_row as usize {
                         self.grid[new_row][col] = 'O';
                         self.grid[cur_row as usize][col] = '.';

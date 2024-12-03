@@ -39,12 +39,8 @@ impl Runner for Aoc2024_2 {
     fn parse(&mut self) {
         let inputs = aoclib::utils::read_file("./inputs/input02.txt");
         inputs.iter().for_each(|line| {
-            self.levels.push(
-                line.split(' ')
-                    .into_iter()
-                    .map(|v| v.parse::<i32>().unwrap())
-                    .collect(),
-            );
+            self.levels
+                .push(line.split(' ').map(|v| v.parse::<i32>().unwrap()).collect());
         });
     }
 
@@ -53,11 +49,7 @@ impl Runner for Aoc2024_2 {
             "{}",
             self.levels
                 .iter()
-                .filter_map(|nums| if self.is_safe_report(nums) {
-                    Some(1)
-                } else {
-                    Some(0)
-                })
+                .map(|nums| if self.is_safe_report(nums) { 1 } else { 0 })
                 .sum::<i32>()
         )]
     }
@@ -67,11 +59,11 @@ impl Runner for Aoc2024_2 {
             "{}",
             self.levels
                 .iter()
-                .filter_map(|nums| {
+                .map(|nums| {
                     if self.is_safe_report(nums) || self.is_safe_report_by_remove_one(nums) {
-                        Some(1)
+                        1
                     } else {
-                        Some(0)
+                        0
                     }
                 })
                 .sum::<i32>()

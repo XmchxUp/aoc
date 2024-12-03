@@ -105,7 +105,6 @@ impl From<String> for Sequence {
 }
 
 #[cfg(test)]
-
 mod tests {
     use super::*;
 
