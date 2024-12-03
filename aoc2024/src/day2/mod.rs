@@ -1,11 +1,11 @@
 use aoclib::Runner;
 
 #[derive(Default)]
-pub struct Aoc2023_2 {
+pub struct Aoc2024_2 {
     levels: Vec<Vec<i32>>,
 }
 
-impl Aoc2023_2 {
+impl Aoc2024_2 {
     pub fn new() -> Self {
         Self::default()
     }
@@ -31,7 +31,7 @@ impl Aoc2023_2 {
     }
 }
 
-impl Runner for Aoc2023_2 {
+impl Runner for Aoc2024_2 {
     fn info(&self) -> (usize, usize) {
         (2024, 2)
     }

@@ -3,19 +3,19 @@ use std::collections::HashMap;
 use aoclib::Runner;
 
 #[derive(Default)]
-pub struct Aoc2023_1 {
+pub struct Aoc2024_1 {
     left: Vec<u32>,
     right: Vec<u32>,
     right_counter: HashMap<u32, u32>,
 }
 
-impl Aoc2023_1 {
+impl Aoc2024_1 {
     pub fn new() -> Self {
         Self::default()
     }
 }
 
-impl Runner for Aoc2023_1 {
+impl Runner for Aoc2024_1 {
     fn info(&self) -> (usize, usize) {
         (2024, 1)
     }
