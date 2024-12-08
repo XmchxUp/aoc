@@ -28,7 +28,7 @@ impl Aoc2024_6 {
 
 impl Runner for Aoc2024_6 {
     fn info(&self) -> (usize, usize) {
-        (2024, 5)
+        (2024, 6)
     }
 
     fn parse(&mut self) {
