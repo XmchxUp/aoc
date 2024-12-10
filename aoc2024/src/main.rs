@@ -16,6 +16,8 @@ mod day7;
 use day7::*;
 mod day8;
 use day8::*;
+mod day9;
+use day9::*;
 
 fn main() {
     let day1 = Aoc2024_1::new();
@@ -26,6 +28,7 @@ fn main() {
     let day6 = Aoc2024_6::new();
     let day7 = Aoc2024_7::new();
     let day8 = Aoc2024_8::new();
+    let day9 = Aoc2024_9::new();
 
     let mut days: Vec<Box<dyn Runner>> = Vec::with_capacity(25);
     days.push(Box::new(day1));
@@ -36,6 +39,7 @@ fn main() {
     days.push(Box::new(day6));
     days.push(Box::new(day7));
     days.push(Box::new(day8));
+    days.push(Box::new(day9));
 
     let which = Selector::Last;
 
