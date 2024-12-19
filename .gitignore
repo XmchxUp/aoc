@@ -1,4 +1,4 @@
 *.out
 .vscode/
 target/
-inputs/
+*.txt
