@@ -60,8 +60,8 @@ impl Runner for Aoc2024_10 {
     }
 
     fn parse(&mut self) {
-        let inputs =
-            aoclib::utils::read_file(format!("./inputs/test{:02}.txt", self.info().1).as_str());
+        // let inputs =
+        // aoclib::utils::read_file(format!("./inputs/test{:02}.txt", self.info().1).as_str());
         let inputs =
             aoclib::utils::read_file(format!("./inputs/input{:02}.txt", self.info().1).as_str());
         for line in inputs {

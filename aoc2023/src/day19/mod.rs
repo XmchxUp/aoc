@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 
 use aoclib::Runner;
+type Workflows = HashMap<String, (Vec<(char, char, i32, String)>, String)>;
 
 #[derive(Default)]
 pub struct Aoc2023_19 {
-    workflows: HashMap<String, (Vec<(char, char, i32, String)>, String)>,
+    workflows: Workflows,
     values: Vec<HashMap<char, i32>>,
 }
 

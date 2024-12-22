@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 use aoclib::Runner;
 
 #[derive(Default)]

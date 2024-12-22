@@ -43,7 +43,9 @@ fn main() {
     let day20 = Aoc2023_20::new();
     let day21 = Aoc2023_21::new();
     let day22 = Aoc2023_22::new();
-    let day22 = Aoc2023_22::new();
+    let day23 = Aoc2023_23::new();
+    let day24 = Aoc2023_24::new();
+    let day25 = Aoc2023_25::new();
     let mut days: HashMap<usize, Box<dyn Runner>> = HashMap::new();
     days.insert(12, Box::new(day12));
     days.insert(13, Box::new(day13));
@@ -54,6 +56,11 @@ fn main() {
     days.insert(18, Box::new(day18));
     days.insert(19, Box::new(day19));
     days.insert(20, Box::new(day20));
+    days.insert(21, Box::new(day21));
+    days.insert(22, Box::new(day22));
+    days.insert(23, Box::new(day23));
+    days.insert(24, Box::new(day24));
+    days.insert(25, Box::new(day25));
 
     let which = Selector::One(20);
 
