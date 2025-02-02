@@ -61,8 +61,8 @@ impl Aoc2023_19 {
 
                 for (key, cmp, n, target) in rules {
                     let (lo, hi) = curret_ranges.get(key).unwrap();
-                    let mut true_range = (0, 0);
-                    let mut false_range = (0, 0);
+                    let true_range;
+                    let false_range;
                     if *cmp == '<' {
                         true_range = (*lo, *n - 1);
                         false_range = (*n, *hi);
