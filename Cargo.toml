@@ -4,7 +4,12 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["aoc2023", "aoc2024", "aoclib"]
-
+members = ["aoc2019", "aoc2023", "aoc2024", "aoclib"]
 
 [dependencies]
+clap = { version = "4.5.34", features = ["derive"] }
+reqwest = { version = "0.12.15", features = ["blocking"] }
+aoc2019 = { path = "./aoc2019" }
+aoc2023 = { path = "./aoc2023" }
+aoc2024 = { path = "./aoc2024" }
+aoclib = { path = "./aoclib" }
