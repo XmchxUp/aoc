@@ -12,18 +12,21 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    /// Generate template code
     Gen {
         #[arg(short, long)]
         year: u32,
         #[arg(short, long)]
         day: u32,
     },
+    /// Download inputs
     Download {
         #[arg(short, long)]
         year: u32,
         #[arg(short, long)]
         day: u32,
     },
+    /// Execute code
     Run {
         #[arg(short, long)]
         year: u32,
