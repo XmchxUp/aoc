@@ -2,6 +2,8 @@ use std::collections::HashMap;
 
 use aoclib::Runner;
 
+type Wire = HashMap<(i32, i32), i32>;
+
 #[derive(Default)]
 pub struct Aoc2019_3 {
     wires: Vec<Wire>,
@@ -21,7 +23,7 @@ impl Runner for Aoc2019_3 {
     fn parse(&mut self) {
         let inputs = aoclib::utils::read_file("./inputs/2019/03.txt");
         for line in inputs {
-            let mut wire = HashMap::new();
+            let mut wire = Wire::new();
 
             let mut x = 0;
             let mut y = 0;
@@ -88,5 +90,3 @@ impl Runner for Aoc2019_3 {
         vec![format!("{}", res)]
     }
 }
-
-type Wire = HashMap<(i32, i32), i32>;
