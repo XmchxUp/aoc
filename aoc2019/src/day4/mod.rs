@@ -91,7 +91,6 @@ impl Runner for Aoc2019_4 {
                 }
             }
             if valid {
-                println!("{:?}", num_vec);
                 res += 1;
             }
         }
