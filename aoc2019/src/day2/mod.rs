@@ -10,7 +10,7 @@ impl Aoc2019_2 {
         Self::default()
     }
 
-    fn get_output(&self, nums: &mut Vec<usize>) -> usize {
+    fn get_output(&self, nums: &mut [usize]) -> usize {
         let mut pc = 0;
 
         while pc < nums.len() && nums[pc] != 99 {
