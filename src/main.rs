@@ -1,3 +1,4 @@
+use anyhow::{Context, Result};
 use clap::{Parser, Subcommand};
 
 mod cmd;
@@ -35,18 +36,19 @@ enum Commands {
     },
 }
 
-fn main() {
+fn main() -> Result<()> {
     let cli = Cli::parse();
 
     match cli.command {
         Commands::Gen { year, day } => {
-            generate_aoc_template(year, day).unwrap();
+            generate_aoc_template(year, day).context("generate aoc template fail")?;
         }
         Commands::Run { year, day } => {
             run(year, day);
         }
         Commands::Download { year, day } => {
-            download_input(year, day).unwrap();
+            download_input(year, day).context("download input fail:")?;
         }
     }
+    Ok(())
 }

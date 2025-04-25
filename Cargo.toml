@@ -13,3 +13,4 @@ aoc2019 = { path = "./aoc2019" }
 aoc2023 = { path = "./aoc2023" }
 aoc2024 = { path = "./aoc2024" }
 aoclib = { path = "./aoclib" }
+anyhow = "1.0.98"

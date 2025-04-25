@@ -1,16 +1,17 @@
+use anyhow::{Context, Result};
 use std::fs;
 use std::io::Write;
 
-pub fn generate_aoc_template(year: u32, day: u32) -> Result<(), Box<dyn std::error::Error>> {
+pub fn generate_aoc_template(year: u32, day: u32) -> Result<()> {
     let dir = format!("aoc{}/src/day{}", year, day);
     let file_path = format!("{}/mod.rs", dir);
 
-    if fs::exists(&file_path)? {
+    if fs::exists(&file_path).context("check path fail")? {
         println!("skip already exists");
         return Ok(());
     }
 
-    fs::create_dir_all(&dir)?;
+    fs::create_dir_all(&dir).context("create dir fail")?;
 
     let template = format!(
         r#"use aoclib::Runner;
@@ -48,8 +49,9 @@ impl Runner for Aoc{year}_{day} {{
         day = day
     );
 
-    let mut file = fs::File::create(&file_path)?;
-    file.write_all(template.as_bytes())?;
+    let mut file = fs::File::create(&file_path).context("create file fail")?;
+    file.write_all(template.as_bytes())
+        .context("write file fail")?;
 
     println!("Generated template at: {}", file_path);
     Ok(())
