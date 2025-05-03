@@ -2,6 +2,7 @@ use std::collections::{HashSet, VecDeque};
 
 use aoclib::Runner;
 
+#[derive(Default)]
 pub struct Aoc2024_12 {
     map: Vec<Vec<char>>,
     dirs: Vec<(i32, i32)>,

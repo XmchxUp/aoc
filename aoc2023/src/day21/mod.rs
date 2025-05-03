@@ -15,16 +15,16 @@ impl Runner for Aoc2023_21 {
     }
 
     fn parse(&mut self) {
-        let inputs = aoclib::utils::read_file("./inputs/2023/21.txt");
+        let _inputs = aoclib::utils::read_file("./inputs/2023/21.txt");
     }
 
     fn part1(&mut self) -> Vec<String> {
-        let mut res = 0;
+        let res = 0;
         vec![format!("{}", res)]
     }
 
     fn part2(&mut self) -> Vec<String> {
-        let mut res = 0;
+        let res = 0;
         vec![format!("{}", res)]
     }
 }

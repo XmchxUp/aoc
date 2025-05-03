@@ -58,10 +58,10 @@ impl Runner for Aoc2019_3 {
 
     fn part1(&mut self) -> Vec<String> {
         let mut res = i32::MAX;
-        let w1 = self.wires.get(0).unwrap();
+        let w1 = self.wires.first().unwrap();
         let w2 = self.wires.get(1).unwrap();
 
-        for (p, _steps1) in w1 {
+        for p in w1.keys() {
             if p == &(0, 0) {
                 continue;
             }
@@ -75,7 +75,7 @@ impl Runner for Aoc2019_3 {
 
     fn part2(&mut self) -> Vec<String> {
         let mut res = i32::MAX;
-        let w1 = self.wires.get(0).unwrap();
+        let w1 = self.wires.first().unwrap();
         let w2 = self.wires.get(1).unwrap();
 
         for (p, steps1) in w1 {
