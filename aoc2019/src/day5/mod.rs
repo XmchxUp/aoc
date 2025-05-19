@@ -48,7 +48,7 @@ impl From<usize> for OpCode {
 
 #[derive(Default)]
 pub struct Aoc2019_5 {
-    nums: Vec<i64>,
+    program: Vec<i64>,
 }
 
 impl Aoc2019_5 {
@@ -75,46 +75,48 @@ impl Aoc2019_5 {
         (first, second, third)
     }
 
-    fn get_diagnostic_code(&self, input: i64) -> i64 {
-        let mut nums = self.nums.clone();
-
+    pub fn get_diagnostic_code(&self, program: &mut [i64], inputs: &[i64]) -> i64 {
         let mut pc = 0;
-        let mut current_v = input;
+        let mut input_idx = 0;
 
-        'outer: while pc < nums.len() {
-            let pc_v = nums[pc] as usize;
+        let mut output = 0;
+
+        'outer: while pc < program.len() {
+            let pc_v = program[pc] as usize;
             let opcode: OpCode = (pc_v % 100).into();
             // println!("PC: {} PC_V: {}, Opcode: {:?}", pc, pc_v, opcode);
 
             match opcode {
                 OpCode::Add => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
                     let result = first + second;
                     // println!("Add: {} + {} = {} -> [{}]", first, second, result, third);
-                    nums[third as usize] = result;
+                    program[third as usize] = result;
                     pc += 4;
                 }
                 OpCode::Mul => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
                     let result = first * second;
                     // println!("Mul: {} * {} = {} -> [{}]", first, second, result, third);
-                    nums[third as usize] = result;
+                    program[third as usize] = result;
                     pc += 4;
                 }
                 OpCode::Input => {
-                    let addr = nums[pc + 1];
+                    assert!(input_idx < inputs.len(), "Inputs not enough");
+                    let addr = program[pc + 1];
                     // println!("Input: {} -> [{}]", current_v, addr);
-                    nums[addr as usize] = current_v;
+                    program[addr as usize] = inputs[input_idx];
+                    input_idx += 1;
                     pc += 2;
                 }
                 OpCode::Output => {
-                    let addr = nums[pc + 1];
-                    current_v = nums[addr as usize];
+                    let addr = program[pc + 1];
+                    output = program[addr as usize];
                     // println!("Output: [{}] = {}", addr, current_v);
                     pc += 2;
                 }
                 OpCode::JumpIfTrue => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, _) = self.get_paramters(pc_v, pc, &program);
                     // println!("JumpIfTrue: if {} != 0 jump to {}", first, second);
                     if first != 0 {
                         pc = second as usize;
@@ -123,7 +125,7 @@ impl Aoc2019_5 {
                     }
                 }
                 OpCode::JumpIfFalse => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, _) = self.get_paramters(pc_v, pc, &program);
                     // println!("JumpIfFalse: if {} == 0 jump to {}", first, second);
                     if first == 0 {
                         pc = second as usize;
@@ -132,23 +134,23 @@ impl Aoc2019_5 {
                     }
                 }
                 OpCode::LessThan => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
                     let result = if first < second { 1 } else { 0 };
                     // println!(
                     //     "LessThan: {} < {} => {} -> [{}]",
                     //     first, second, result, third
                     // );
-                    nums[third as usize] = result;
+                    program[third as usize] = result;
                     pc += 4;
                 }
                 OpCode::Equals => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &nums);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
                     let result = if first == second { 1 } else { 0 };
                     // println!(
                     //     "Equals: {} == {} => {} -> [{}]",
                     //     first, second, result, third
                     // );
-                    nums[third as usize] = result;
+                    program[third as usize] = result;
                     pc += 4;
                 }
                 OpCode::Halt => {
@@ -157,7 +159,7 @@ impl Aoc2019_5 {
                 }
             }
         }
-        current_v
+        output
     }
 }
 
@@ -170,15 +172,17 @@ impl Runner for Aoc2019_5 {
         let inputs = aoclib::utils::read_file("./inputs/2019/05.txt");
         for line in inputs {
             let nums_str: Vec<&str> = line.split(",").collect();
-            self.nums = nums_str.iter().map(|v| v.parse::<i64>().unwrap()).collect();
+            self.program = nums_str.iter().map(|v| v.parse::<i64>().unwrap()).collect();
         }
     }
 
     fn part1(&mut self) -> Vec<String> {
-        vec![format!("{}", self.get_diagnostic_code(1))]
+        let mut nums = self.program.clone();
+        vec![format!("{}", self.get_diagnostic_code(&mut nums, &vec![1]))]
     }
 
     fn part2(&mut self) -> Vec<String> {
-        vec![format!("{}", self.get_diagnostic_code(5))]
+        let mut nums = self.program.clone();
+        vec![format!("{}", self.get_diagnostic_code(&mut nums, &vec![5]))]
     }
 }
