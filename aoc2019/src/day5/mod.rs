@@ -88,14 +88,14 @@ impl Aoc2019_5 {
 
             match opcode {
                 OpCode::Add => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
                     let result = first + second;
                     // println!("Add: {} + {} = {} -> [{}]", first, second, result, third);
                     program[third as usize] = result;
                     pc += 4;
                 }
                 OpCode::Mul => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
                     let result = first * second;
                     // println!("Mul: {} * {} = {} -> [{}]", first, second, result, third);
                     program[third as usize] = result;
@@ -116,7 +116,7 @@ impl Aoc2019_5 {
                     pc += 2;
                 }
                 OpCode::JumpIfTrue => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, _) = self.get_paramters(pc_v, pc, program);
                     // println!("JumpIfTrue: if {} != 0 jump to {}", first, second);
                     if first != 0 {
                         pc = second as usize;
@@ -125,7 +125,7 @@ impl Aoc2019_5 {
                     }
                 }
                 OpCode::JumpIfFalse => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, _) = self.get_paramters(pc_v, pc, program);
                     // println!("JumpIfFalse: if {} == 0 jump to {}", first, second);
                     if first == 0 {
                         pc = second as usize;
@@ -134,7 +134,7 @@ impl Aoc2019_5 {
                     }
                 }
                 OpCode::LessThan => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
                     let result = if first < second { 1 } else { 0 };
                     // println!(
                     //     "LessThan: {} < {} => {} -> [{}]",
@@ -144,7 +144,7 @@ impl Aoc2019_5 {
                     pc += 4;
                 }
                 OpCode::Equals => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, &program);
+                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
                     let result = if first == second { 1 } else { 0 };
                     // println!(
                     //     "Equals: {} == {} => {} -> [{}]",
@@ -178,11 +178,11 @@ impl Runner for Aoc2019_5 {
 
     fn part1(&mut self) -> Vec<String> {
         let mut nums = self.program.clone();
-        vec![format!("{}", self.get_diagnostic_code(&mut nums, &vec![1]))]
+        vec![format!("{}", self.get_diagnostic_code(&mut nums, &[1]))]
     }
 
     fn part2(&mut self) -> Vec<String> {
         let mut nums = self.program.clone();
-        vec![format!("{}", self.get_diagnostic_code(&mut nums, &vec![5]))]
+        vec![format!("{}", self.get_diagnostic_code(&mut nums, &[5]))]
     }
 }

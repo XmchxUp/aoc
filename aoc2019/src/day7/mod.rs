@@ -20,7 +20,7 @@ impl Aoc2019_7 {
         for phase in phase_settings {
             signal = self
                 .computer
-                .get_diagnostic_code(program, &vec![*phase, signal]);
+                .get_diagnostic_code(program, &[*phase, signal]);
         }
         signal
     }
@@ -70,7 +70,7 @@ mod test {
 
     #[test]
     fn test_part_one() {
-        let mut solver = Aoc2019_7::default();
+        let mut solver = Aoc2019_7::new();
         solver.program = vec![
             3, 15, 3, 16, 1002, 16, 10, 16, 1, 16, 15, 15, 4, 15, 99, 0, 0,
         ];
