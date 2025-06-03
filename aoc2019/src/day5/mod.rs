@@ -75,91 +75,97 @@ impl Aoc2019_5 {
         (first, second, third)
     }
 
-    pub fn get_diagnostic_code(&self, program: &mut [i64], inputs: &[i64]) -> i64 {
-        let mut pc = 0;
-        let mut input_idx = 0;
+    pub fn get_diagnostic_code(
+        &self,
+        program: &mut [i64],
+        pc: &mut usize,
+        input_idx: &mut usize,
+        inputs: &[i64],
+    ) -> (Option<i64>, bool) {
+        let mut output = None;
 
-        let mut output = 0;
-
-        'outer: while pc < program.len() {
-            let pc_v = program[pc] as usize;
+        while *pc < program.len() {
+            let pc_v = program[*pc] as usize;
             let opcode: OpCode = (pc_v % 100).into();
             // println!("PC: {} PC_V: {}, Opcode: {:?}", pc, pc_v, opcode);
 
             match opcode {
                 OpCode::Add => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, third) = self.get_paramters(pc_v, *pc, program);
                     let result = first + second;
                     // println!("Add: {} + {} = {} -> [{}]", first, second, result, third);
                     program[third as usize] = result;
-                    pc += 4;
+                    *pc += 4;
                 }
                 OpCode::Mul => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, third) = self.get_paramters(pc_v, *pc, program);
                     let result = first * second;
                     // println!("Mul: {} * {} = {} -> [{}]", first, second, result, third);
                     program[third as usize] = result;
-                    pc += 4;
+                    *pc += 4;
                 }
                 OpCode::Input => {
-                    assert!(input_idx < inputs.len(), "Inputs not enough");
-                    let addr = program[pc + 1];
+                    // assert!(*input_idx < inputs.len(), "Inputs not enough");
+                    if *input_idx >= inputs.len() {
+                        return (output, false);
+                    }
+                    let addr = program[*pc + 1];
                     // println!("Input: {} -> [{}]", current_v, addr);
-                    program[addr as usize] = inputs[input_idx];
-                    input_idx += 1;
-                    pc += 2;
+                    program[addr as usize] = inputs[*input_idx];
+                    *input_idx += 1;
+                    *pc += 2;
                 }
                 OpCode::Output => {
-                    let addr = program[pc + 1];
-                    output = program[addr as usize];
+                    let addr = program[*pc + 1];
+                    output = Some(program[addr as usize]);
                     // println!("Output: [{}] = {}", addr, current_v);
-                    pc += 2;
+                    *pc += 2;
                 }
                 OpCode::JumpIfTrue => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, _) = self.get_paramters(pc_v, *pc, program);
                     // println!("JumpIfTrue: if {} != 0 jump to {}", first, second);
                     if first != 0 {
-                        pc = second as usize;
+                        *pc = second as usize;
                     } else {
-                        pc += 3;
+                        *pc += 3;
                     }
                 }
                 OpCode::JumpIfFalse => {
-                    let (first, second, _) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, _) = self.get_paramters(pc_v, *pc, program);
                     // println!("JumpIfFalse: if {} == 0 jump to {}", first, second);
                     if first == 0 {
-                        pc = second as usize;
+                        *pc = second as usize;
                     } else {
-                        pc += 3;
+                        *pc += 3;
                     }
                 }
                 OpCode::LessThan => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, third) = self.get_paramters(pc_v, *pc, program);
                     let result = if first < second { 1 } else { 0 };
                     // println!(
                     //     "LessThan: {} < {} => {} -> [{}]",
                     //     first, second, result, third
                     // );
                     program[third as usize] = result;
-                    pc += 4;
+                    *pc += 4;
                 }
                 OpCode::Equals => {
-                    let (first, second, third) = self.get_paramters(pc_v, pc, program);
+                    let (first, second, third) = self.get_paramters(pc_v, *pc, program);
                     let result = if first == second { 1 } else { 0 };
                     // println!(
                     //     "Equals: {} == {} => {} -> [{}]",
                     //     first, second, result, third
                     // );
                     program[third as usize] = result;
-                    pc += 4;
+                    *pc += 4;
                 }
                 OpCode::Halt => {
                     // println!("Halt");
-                    break 'outer;
+                    return (output, true);
                 }
             }
         }
-        output
+        (output, false)
     }
 }
 
@@ -177,12 +183,26 @@ impl Runner for Aoc2019_5 {
     }
 
     fn part1(&mut self) -> Vec<String> {
-        let mut nums = self.program.clone();
-        vec![format!("{}", self.get_diagnostic_code(&mut nums, &[1]))]
+        let mut program = self.program.clone();
+        let mut pc = 0;
+        let mut input_idx = 0;
+        vec![format!(
+            "{}",
+            self.get_diagnostic_code(&mut program, &mut pc, &mut input_idx, &[1])
+                .0
+                .unwrap()
+        )]
     }
 
     fn part2(&mut self) -> Vec<String> {
-        let mut nums = self.program.clone();
-        vec![format!("{}", self.get_diagnostic_code(&mut nums, &[5]))]
+        let mut program = self.program.clone();
+        let mut pc = 0;
+        let mut input_idx = 0;
+        vec![format!(
+            "{}",
+            self.get_diagnostic_code(&mut program, &mut pc, &mut input_idx, &[5])
+                .0
+                .unwrap()
+        )]
     }
 }

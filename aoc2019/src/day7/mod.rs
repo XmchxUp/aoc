@@ -14,16 +14,6 @@ impl Aoc2019_7 {
     pub fn new() -> Self {
         Self::default()
     }
-
-    fn get_thruster_signal(&self, program: &mut [i64], phase_settings: &[i64]) -> i64 {
-        let mut signal = 0;
-        for phase in phase_settings {
-            signal = self
-                .computer
-                .get_diagnostic_code(program, &[*phase, signal]);
-        }
-        signal
-    }
 }
 
 impl Runner for Aoc2019_7 {
@@ -44,7 +34,21 @@ impl Runner for Aoc2019_7 {
 
         for phase_settings in (0..5).permutations(5) {
             let mut program = self.program.clone();
-            let signal = self.get_thruster_signal(&mut program, &phase_settings);
+            let mut signal = 0;
+            for phase in phase_settings {
+                let mut pc = 0;
+                let mut input_idx = 0;
+                signal = self
+                    .computer
+                    .get_diagnostic_code(
+                        &mut program,
+                        &mut pc,
+                        &mut input_idx,
+                        &vec![phase, signal],
+                    )
+                    .0
+                    .unwrap();
+            }
             max_signal = max_signal.max(signal);
         }
 
@@ -52,15 +56,62 @@ impl Runner for Aoc2019_7 {
     }
 
     fn part2(&mut self) -> Vec<String> {
-        let mut max_signal = 0;
+        let mut res = 0;
 
-        for phase_settings in (5..10).permutations(5) {
-            let mut program = self.program.clone();
-            let signal = self.get_thruster_signal(&mut program, &phase_settings);
-            max_signal = max_signal.max(signal);
+        struct Amplifier {
+            memory: Vec<i64>,
+            pc: usize,
+            input_idx: usize,
+            inputs: Vec<i64>,
+            halted: bool,
         }
 
-        vec![format!("{}", max_signal)]
+        for phase_settings in (5..10).permutations(5) {
+            let mut amplifiers = phase_settings
+                .iter()
+                .map(|&phase| Amplifier {
+                    memory: self.program.to_vec(),
+                    pc: 0,
+                    input_idx: 0,
+                    inputs: vec![phase],
+                    halted: false,
+                })
+                .collect::<Vec<Amplifier>>();
+
+            amplifiers[0].inputs.push(0);
+
+            let mut last_output = 0;
+            let mut current_amp_idx = 0;
+
+            while !amplifiers.iter().all(|a| a.halted) {
+                let amp = &mut amplifiers[current_amp_idx];
+                if amp.halted {
+                    current_amp_idx = (current_amp_idx + 1) % 5;
+                    continue;
+                }
+
+                let (output, halted) = self.computer.get_diagnostic_code(
+                    &mut amp.memory,
+                    &mut amp.pc,
+                    &mut amp.input_idx,
+                    &amp.inputs,
+                );
+
+                amp.halted = halted;
+
+                if let Some(output_val) = output {
+                    let next_amp_idx = (current_amp_idx + 1) % 5;
+                    amplifiers[next_amp_idx].inputs.push(output_val);
+                    last_output = output_val;
+                }
+
+                current_amp_idx = (current_amp_idx + 1) % 5;
+            }
+
+            res = res.max(last_output);
+        }
+
+        vec![format!("{}", res)]
     }
 }
 
@@ -87,7 +138,11 @@ mod test {
             33, 31, 31, 1, 32, 31, 31, 4, 31, 99, 0, 0, 0,
         ];
         assert_eq!(vec!["65210".to_string()], solver.part1());
+    }
 
+    #[test]
+    fn test_part_two() {
+        let mut solver = Aoc2019_7::default();
         solver.program = vec![
             3, 26, 1001, 26, -4, 26, 3, 27, 1002, 27, 2, 27, 1, 27, 26, 27, 4, 27, 1001, 28, -1,
             28, 1005, 28, 6, 99, 0, 0, 5,
