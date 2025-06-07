@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["aoc2019", "aoc2023", "aoc2024", "aoclib"]
+members = [ "aoc2015","aoc2019", "aoc2023", "aoc2024", "aoclib"]
 
 [workspace.dependencies]
 itertools = "0.14.0"
