@@ -1,7 +1,7 @@
 module Day3 exposing (..)
 
 import Html exposing (input, pre, text)
-import Set exposing (Set)
+import Set
 
 
 main : Html.Html msg

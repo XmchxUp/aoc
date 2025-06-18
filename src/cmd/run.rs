@@ -2,6 +2,9 @@ use aoclib::Runner;
 
 fn create_runner(year: u32, day: u32) -> Option<Box<dyn Runner>> {
     match (year, day) {
+        // 2015
+        (2015, 4) => Some(Box::new(aoc2015::Aoc2015_4::new())),
+        (2015, 5) => Some(Box::new(aoc2015::Aoc2015_5::new())),
         // 2019
         (2019, 1) => Some(Box::new(aoc2019::Aoc2019_1::new())),
         (2019, 2) => Some(Box::new(aoc2019::Aoc2019_2::new())),
