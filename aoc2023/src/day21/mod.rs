@@ -14,6 +14,35 @@ impl Aoc2023_21 {
     pub fn new() -> Self {
         Self::default()
     }
+
+    fn reachable_steps(&self, steps: usize) -> usize {
+        let mut current = HashSet::new();
+        current.insert(self.start);
+
+        let mut next = HashSet::new();
+        let dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)];
+
+        let h = self.map.len() as i32;
+        let w = self.map[0].len() as i32;
+        for _ in 1..=steps {
+            next.clear();
+            for (x, y) in &current {
+                for (dx, dy) in dirs {
+                    let nx = x + dx;
+                    let ny = y + dy;
+
+                    let cx = ((nx % w) + w) % w;
+                    let cy = ((ny % h) + h) % h;
+
+                    if self.map[cx as usize][cy as usize] != '#' {
+                        next.insert((nx, ny));
+                    }
+                }
+            }
+            std::mem::swap(&mut current, &mut next);
+        }
+        current.len()
+    }
 }
 
 impl Runner for Aoc2023_21 {
@@ -68,7 +97,27 @@ impl Runner for Aoc2023_21 {
     }
 
     fn part2(&mut self) -> Vec<String> {
-        let res = 0;
-        vec![format!("{}", res)]
+        // let steps = 26501365;
+        // start = (65, 65)
+        // println!("{} {}", self.start.0, self.start.1);
+        // grid_length*grid_height = 131*131
+
+        // 26501365 = 202300 * 131 + 65
+        // f(n) = a*n^2 + b*n + c
+        let base_steps = 65;
+        let v0 = self.reachable_steps(base_steps) as i128;
+        let v1 = self.reachable_steps(base_steps + 131) as i128;
+        let v2 = self.reachable_steps(base_steps + 131 * 2) as i128;
+
+        let n = 202300;
+        vec![format!("{}", interpolate(n, v0, v1, v2))]
     }
+}
+
+fn interpolate(n: i128, v0: i128, v1: i128, v2: i128) -> i128 {
+    // Lagrange interpolation for n-th value
+    let a = v0;
+    let b = v1 - v0;
+    let c = v2 - 2 * v1 + v0;
+    a + b * n + c * n * (n - 1) / 2
 }

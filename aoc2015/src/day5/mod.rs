@@ -44,7 +44,7 @@ impl Runner for Aoc2015_5 {
 
         vec![format!(
             "{}",
-            self.inputs.iter().filter(|v| is_nice(&v)).count()
+            self.inputs.iter().filter(|v| is_nice(v)).count()
         )]
     }
 
@@ -72,7 +72,7 @@ impl Runner for Aoc2015_5 {
 
         vec![format!(
             "{}",
-            self.inputs.iter().filter(|v| is_nice(&v)).count()
+            self.inputs.iter().filter(|v| is_nice(v)).count()
         )]
     }
 }

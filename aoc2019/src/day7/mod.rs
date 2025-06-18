@@ -40,12 +40,7 @@ impl Runner for Aoc2019_7 {
                 let mut input_idx = 0;
                 signal = self
                     .computer
-                    .get_diagnostic_code(
-                        &mut program,
-                        &mut pc,
-                        &mut input_idx,
-                        &vec![phase, signal],
-                    )
+                    .get_diagnostic_code(&mut program, &mut pc, &mut input_idx, &[phase, signal])
                     .0
                     .unwrap();
             }
