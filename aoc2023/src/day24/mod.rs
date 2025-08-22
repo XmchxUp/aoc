@@ -1,4 +1,5 @@
 use aoclib::Runner;
+use nalgebra::Vector3;
 
 #[derive(Debug)]
 struct Hailstone {
@@ -8,6 +9,16 @@ struct Hailstone {
     vx: f64,
     vy: f64,
     vz: f64,
+}
+
+impl Hailstone {
+    fn position(&self) -> Vector3<f64> {
+        Vector3::new(self.x, self.y, self.z)
+    }
+
+    fn velocity(&self) -> Vector3<f64> {
+        Vector3::new(self.vx, self.vy, self.vz)
+    }
 }
 
 #[derive(Default)]
@@ -92,7 +103,7 @@ impl Runner for Aoc2023_24 {
             for j in i + 1..n {
                 match self.intersect(&self.hailstones[i], &self.hailstones[j]) {
                     None => continue,
-                    Some((x, y, t, u)) => {
+                    Some((x, y, _t, _u)) => {
                         // println!(
                         //     "{:?} {:?} {} {} {} {}",
                         //     self.hailstones[i], self.hailstones[j], x, y, t, u
@@ -107,8 +118,41 @@ impl Runner for Aoc2023_24 {
         vec![format!("{}", res)]
     }
 
+    // https://www.reddit.com/r/adventofcode/comments/18pnycy/comment/kxqjg33/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
     fn part2(&mut self) -> Vec<String> {
-        let mut res = 0;
-        vec![format!("{}", res)]
+        let h0 = &self.hailstones[0];
+        let h1 = &self.hailstones[1];
+        let h2 = &self.hailstones[2];
+
+        let p1 = Vector3::new(h1.x - h0.x, h1.y - h0.y, h1.z - h0.z);
+        let v1 = Vector3::new(h1.vx - h0.vx, h1.vy - h0.vy, h1.vz - h0.vz);
+
+        let p2 = Vector3::new(h2.x - h0.x, h2.y - h0.y, h2.z - h0.z);
+        let v2 = Vector3::new(h2.vx - h0.vx, h2.vy - h0.vy, h2.vz - h0.vz);
+
+        let cross_p1p2 = p1.cross(&p2);
+        let cross_v1p2 = v1.cross(&p2);
+        let cross_p1v2 = p1.cross(&v2);
+
+        // 求 t1
+        let numerator_t1 = cross_p1p2.dot(&v2);
+        let denominator_t1 = cross_v1p2.dot(&v2);
+        let t1 = -numerator_t1 / denominator_t1;
+
+        // 求 t2
+        let numerator_t2 = cross_p1p2.dot(&v1);
+        let denominator_t2 = cross_p1v2.dot(&v1);
+        let t2 = -numerator_t2 / denominator_t2;
+
+        // 两个碰撞点
+        let c1 = h1.position() + h1.velocity() * t1;
+        let c2 = h2.position() + h2.velocity() * t2;
+
+        let v = (c2 - c1) / (t2 - t1);
+        let p = c1 - v * t1;
+
+        println!("p = {:?}, v = {:?}", p, v);
+
+        vec![format!("{}", p.sum())]
     }
 }
