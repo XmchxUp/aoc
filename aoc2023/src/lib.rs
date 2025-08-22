@@ -24,3 +24,5 @@ mod day23;
 pub use day23::*;
 mod day24;
 pub use day24::*;
+mod day25;
+pub use day25::*;

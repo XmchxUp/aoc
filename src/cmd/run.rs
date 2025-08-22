@@ -28,7 +28,7 @@ fn create_runner(year: u32, day: u32) -> Option<Box<dyn Runner>> {
         (2023, 22) => Some(Box::new(aoc2023::Aoc2023_22::new())),
         (2023, 23) => Some(Box::new(aoc2023::Aoc2023_23::new())),
         (2023, 24) => Some(Box::new(aoc2023::Aoc2023_24::new())),
-        // (2023, 25) => Some(Box::new(aoc2023::Aoc2023_25::new())),
+        (2023, 25) => Some(Box::new(aoc2023::Aoc2023_25::new())),
         // 2024
         (2024, 1) => Some(Box::new(aoc2024::Aoc2024_1::new())),
         (2024, 2) => Some(Box::new(aoc2024::Aoc2024_2::new())),
