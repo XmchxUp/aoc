@@ -116,7 +116,7 @@ impl Aoc2023_23 {
         res
     }
 
-    fn dfs(&self, pos: Point, mut visited: &mut HashSet<Point>, steps: i32, max_steps: &mut i32) {
+    fn dfs(&self, pos: Point, visited: &mut HashSet<Point>, steps: i32, max_steps: &mut i32) {
         if pos == self.end {
             *max_steps = (*max_steps).max(steps);
             return;
@@ -135,7 +135,7 @@ impl Aoc2023_23 {
             for next_pos in self.get_neighbors(&pos) {
                 if !visited.contains(&next_pos) {
                     visited.insert(next_pos);
-                    self.dfs(next_pos, &mut visited, steps + 1, max_steps);
+                    self.dfs(next_pos, visited, steps + 1, max_steps);
                     visited.remove(&next_pos);
                 }
             }

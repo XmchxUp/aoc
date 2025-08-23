@@ -6,6 +6,6 @@ download:
 run:
 	cargo run -- run --year $(year) --day $(day)
 
-rust_gen:
+gen:
 	cargo run -- gen --year $(year) --day $(day)
 	cargo run -- download --year $(year) --day $(day)
