@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace]
-members = ["aoc2015", "aoc2019", "aoc2023", "aoc2024", "aoclib"]
+members = ["aoc2015", "aoc2019", "aoc2023", "aoc2024", "aoc2025", "aoclib"]
 
 [workspace.dependencies]
 itertools = "0.14.0"
@@ -16,5 +16,6 @@ aoc2015 = { path = "./aoc2015" }
 aoc2019 = { path = "./aoc2019" }
 aoc2023 = { path = "./aoc2023" }
 aoc2024 = { path = "./aoc2024" }
+aoc2025 = { path = "./aoc2025" }
 aoclib = { path = "./aoclib" }
 anyhow = "1.0.98"
