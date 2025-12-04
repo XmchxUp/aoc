@@ -1,5 +1,3 @@
-use std::collections::HashSet;
-
 use aoclib::Runner;
 
 type Range = (u64, u64);
