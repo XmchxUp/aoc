@@ -1,4 +1,4 @@
-use std::{collections::HashSet, thread::sleep, time::Duration};
+use std::collections::HashSet;
 
 use aoclib::Runner;
 
