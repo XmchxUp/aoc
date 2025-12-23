@@ -49,6 +49,8 @@ fn create_runner(year: u32, day: u32) -> Option<Box<dyn Runner>> {
         (2025, 2) => Some(Box::new(aoc2025::Aoc2025_2::new())),
         (2025, 3) => Some(Box::new(aoc2025::Aoc2025_3::new())),
         (2025, 4) => Some(Box::new(aoc2025::Aoc2025_4::new())),
+        (2025, 5) => Some(Box::new(aoc2025::Aoc2025_5::new())),
+        (2025, 6) => Some(Box::new(aoc2025::Aoc2025_6::new())),
         _ => None,
     }
 }
